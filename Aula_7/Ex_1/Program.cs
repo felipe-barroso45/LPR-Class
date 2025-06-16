@@ -1,3 +1,11 @@
+/*Construa um algoritmo
+que leia 10 números inteiros e armazene-os
+em um vetor (use o for para fazer a leitura).
+Depois, crie automaticamente dois
+vetores, um contendo apenas os números
+pares e outro os números ímpares
+digitados. */
+
 using System;
 class ParEImpar
 {    static void Main()

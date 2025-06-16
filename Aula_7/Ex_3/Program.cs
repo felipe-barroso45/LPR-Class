@@ -1,3 +1,8 @@
+/*A tabela a seguir
+mostra a distância de quatro cidades entre
+si. Por exemplo, a distância entre Vitória e
+Belo Horizonte é de 524 km. */
+
 using System;
 class Program
 {

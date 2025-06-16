@@ -1,3 +1,11 @@
+/*Construa um algoritmo
+que leia 10 números inteiros. Depois
+solicite para o usuário um número que ele
+gostaria de pesquisar no vetor. Caso o
+número exista no vetor, mostre em qual
+posição (ou quais) ele aparece e quantas
+ocorrências foram detectadas. */
+
 #include <iostream>
 using namespace std;
 
