@@ -15,7 +15,7 @@ public struct Heroi
 
 public class Program
 {
-    static Heroi[] heroisCadastrados;
+    static Heroi[] heroisCadastrados = new Heroi[5];
     static int totalHerois = 0;
 
     static void cadastrarHeroi(int index)
@@ -90,21 +90,118 @@ public class Program
         Console.WriteLine($"Pontuação total dos heróis cadastrados: {pontuacaoTotal}");
     }
 
+    static void exibirEquipe()
+    {
+        Console.WriteLine("Equipe atual:");
+        for (int i = 0; i < 3; i++)
+        {
+            Console.WriteLine($"- {heroisCadastrados[i].Nome} (Poder: {heroisCadastrados[i].Poder}, Nível: {heroisCadastrados[i].Nivel})");
+        }
+    }
+
+    static void exibirMenu()
+    {
+        Console.WriteLine("\nMenu:");
+        Console.WriteLine("1. Cadastrar herói");
+        Console.WriteLine("2. Selecionar equipe");
+        Console.WriteLine("3. Calcular pontuação total");
+        Console.WriteLine("4. Exibir equipe");
+        Console.WriteLine("5. Sair");
+    }
+
     public static void Main(string[] args)
     {
-        Console.WriteLine("Quantos heróis deseja cadastrar?");
-        int quantidade = 0;
-        while (!int.TryParse(Console.ReadLine(), out quantidade) || quantidade < 3)
+        Console.WriteLine("Cadastro de heróis Marvel (máximo 5 heróis)");
+        totalHerois = 0;
+        bool equipeSelecionada = false;
+        Heroi[] equipe = new Heroi[3];
+        bool[] escolhido = new bool[5];
+
+        while (true)
         {
-            Console.WriteLine("Digite um número válido (mínimo 3):");
+            exibirMenu();
+            Console.Write("Escolha uma opção: ");
+            string opcao = Console.ReadLine() ?? "";
+            Console.WriteLine();
+            if (opcao == "1")
+            {
+                if (totalHerois >= 5)
+                {
+                    Console.WriteLine("Limite de heróis cadastrados atingido.");
+                }
+                else
+                {
+                    Console.WriteLine($"\nCadastro do herói {totalHerois + 1}:");
+                    cadastrarHeroi(totalHerois);
+                    totalHerois++;
+                }
+            }
+            else if (opcao == "2")
+            {
+                if (totalHerois < 3)
+                {
+                    Console.WriteLine("Cadastre pelo menos 3 heróis antes de montar a equipe.\n");
+                }
+                else
+                {
+                    Console.WriteLine("Heróis cadastrados:");
+                    for (int i = 0; i < totalHerois; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {heroisCadastrados[i].Nome} (Poder: {heroisCadastrados[i].Poder}, Nível: {heroisCadastrados[i].Nivel})");
+                    }
+                    Array.Clear(escolhido, 0, escolhido.Length);
+                    int count = 0;
+                    while (count < 3)
+                    {
+                        Console.Write($"Selecione o número do {count + 1}º herói para a equipe: ");
+                        string input = Console.ReadLine() ?? "";
+                        if (int.TryParse(input, out int escolha) && escolha >= 1 && escolha <= totalHerois && !escolhido[escolha - 1])
+                        {
+                            equipe[count] = heroisCadastrados[escolha - 1];
+                            escolhido[escolha - 1] = true;
+                            count++;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Escolha inválida ou repetida. Tente novamente.");
+                        }
+                    }
+                    equipeSelecionada = true;
+                    Console.WriteLine("\nEquipe selecionada:");
+                    for (int i = 0; i < 3; i++)
+                    {
+                        Console.WriteLine($"- {equipe[i].Nome} (Poder: {equipe[i].Poder}, Nível: {equipe[i].Nivel})");
+                    }
+                }
+            }
+            else if (opcao == "3")
+            {
+                calcularPontuacaoTotal();
+            }
+            else if (opcao == "4")
+            {
+                if (!equipeSelecionada)
+                {
+                    Console.WriteLine("Nenhuma equipe foi selecionada ainda.");
+                }
+                else
+                {
+                    Console.WriteLine("Equipe atual:");
+                    for (int i = 0; i < 3; i++)
+                    {
+                        Console.WriteLine($"- {equipe[i].Nome} (Poder: {equipe[i].Poder}, Nível: {equipe[i].Nivel})");
+                    }
+                }
+            }
+            else if (opcao == "5")
+            {
+                Console.WriteLine("Saindo...");
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Opção inválida. Tente novamente.");
+            }
         }
-        heroisCadastrados = new Heroi[quantidade];
-        totalHerois = quantidade;
-        for (int i = 0; i < quantidade; i++)
-        {
-            Console.WriteLine($"\nCadastro do herói {i + 1}:");
-            cadastrarHeroi(i);
-        }
-        selecionarEquipe();
     }
 }
